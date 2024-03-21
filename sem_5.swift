@@ -120,3 +120,80 @@ class DetailViewController: UIViewController {
 
 // Д.З.
 
+### ViewController.swift:
+
+class FriendsViewController: UIViewController {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        title = "Friends"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Profile", style: .plain, target: self, action: #selector(profileButtonTapped))
+    }
+    
+    @objc func profileButtonTapped() {
+        let profileViewController = ProfileViewController()
+        navigationController?.pushViewController(profileViewController, animated: true)
+    }
+}
+
+class ProfileViewController: UIViewController {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        title = "Profile"
+        
+        let nameLabel = UILabel()
+        nameLabel.text = "John Doe"
+        nameLabel.textAlignment = .center
+        nameLabel.frame = CGRect(x: 20, y: 100, width: view.frame.width - 40, height: 30)
+        view.addSubview(nameLabel)
+        
+        let imageView = UIImageView(image: UIImage(named: "profileImage"))
+        imageView.contentMode = .scaleAspectFit
+        imageView.frame = CGRect(x: 20, y: 150, width: view.frame.width - 40, height: 200)
+        view.addSubview(imageView)
+    }
+}
+
+### ContentView.swift:
+
+struct ContentView: View {
+    var body: some View {
+        NavigationView {
+            VStack {
+                NavigationLink(destination: NewsListView()) {
+                    Text("Go to News")
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                }
+            }
+            .navigationTitle("Home")
+        }
+    }
+}
+
+struct NewsListView: View {
+    var body: some View {
+        List {
+            ForEach(0..<10) { index in
+                VStack(alignment: .leading) {
+                    Text("News Title \(index + 1)")
+                        .font(.headline)
+                    Text("Published Date: \(Date())")
+                        .font(.subheadline)
+                }
+            }
+        }
+        .navigationTitle("News")
+    }
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}
